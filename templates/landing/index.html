@@ -1,0 +1,412 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if config %}
+    <title>{{ config.titulo }}</title>
+    <meta name="description" content="{{ config.meta_description }}">
+    {% else %}
+    <title>Portfólio</title>
+    {% endif %}
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- AOS.js CSS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- ===================================================================
+         NAVBAR
+         =================================================================== -->
+    <nav class="navbar navbar-expand-lg navbar-portfolio fixed-top">
+        <div class="container">
+            {% if config %}
+            <a class="navbar-brand navbar-brand-logo" href="#">
+                <span>&lt;</span>{{ config.nome_site }}<span>/&gt;</span>
+            </a>
+            {% else %}
+            <a class="navbar-brand navbar-brand-logo" href="#">
+                <span>&lt;</span>Portfólio<span>/&gt;</span>
+            </a>
+            {% endif %}
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Abrir menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projetos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contato</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if config %}
+    <!-- ===================================================================
+         HERO SECTION
+         =================================================================== -->
+    <section class="hero-section" id="home">
+        <div class="hero-glow"></div>
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <!-- Profile -->
+                    <div class="hero-profile-wrapper" data-aos="fade-down" data-aos-delay="100">
+                        {% if config.foto_perfil %}
+                        <img src="{{ config.foto_perfil.url }}" alt="{{ config.nome_site }}" class="hero-profile-img">
+                        <div class="hero-profile-glow"></div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Greeting -->
+                    <p class="hero-greeting" data-aos="fade-up" data-aos-delay="200">
+                        Olá! Eu sou <span class="accent">{{ config.nome_site }}</span>
+                    </p>
+
+                    <!-- Headline box -->
+                    <div class="hero-subtitle-box" data-aos="fade-up" data-aos-delay="300">
+                        <p class="hero-subtitle-label">{{ config.subtitulo }}</p>
+                        <h1 class="hero-headline">{{ config.headline }}</h1>
+                    </div>
+
+                    <!-- Role with typing -->
+                    <h2 class="hero-role-title" data-aos="fade-up" data-aos-delay="400" id="about">
+                        Eu sou <span id="typing-text" data-text="{{ config.cargo_atual }}"></span><span class="typing-cursor"></span>
+                    </h2>
+
+                    <!-- Current position -->
+                    <p class="hero-current-role" data-aos="fade-up" data-aos-delay="500">
+                        Atualmente, sou {{ config.cargo_atual }} na
+                        {% if config.link_empresa %}
+                        <a href="{{ config.link_empresa }}" target="_blank" rel="noopener">
+                            <i class="bi bi-building"></i> {{ config.empresa_atual }}
+                        </a>
+                        {% else %}
+                        <strong>{{ config.empresa_atual }}</strong>
+                        {% endif %}
+                    </p>
+
+                    <!-- About -->
+                    <p class="hero-about" data-aos="fade-up" data-aos-delay="600">
+                        {{ config.sobre_mim }}
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================================
+         WORK EXPERIENCE
+         =================================================================== -->
+    {% if experiences %}
+    <section class="experience-section" id="experience">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Experiência Profissional</h2>
+
+            <div class="row g-4">
+                {% for exp in experiences %}
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                    <div class="experience-card">
+                        {% if exp.icone %}
+                        <img src="{{ exp.icone.url }}" alt="{{ exp.titulo }}" class="experience-card-img">
+                        {% endif %}
+                        <div class="experience-card-body">
+                            <h3 class="experience-card-title">{{ exp.titulo }}</h3>
+                            <p class="experience-card-company">{{ exp.empresa }}</p>
+                            <p class="experience-card-desc">{{ exp.descricao }}</p>
+                            {% if exp.link %}
+                            <a href="{{ exp.link }}" class="experience-card-link" target="_blank" rel="noopener">
+                                Saiba mais <i class="bi bi-arrow-right"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ===================================================================
+         SKILLS / TECHNOLOGIES
+         =================================================================== -->
+    {% if skills %}
+    <section class="skills-section" id="skills">
+        <div class="container">
+
+            <!-- Availability text -->
+            <div class="skills-availability" data-aos="fade-up">
+                <p>{{ config.texto_disponibilidade }}</p>
+            </div>
+
+            <!-- Orbit -->
+            <div class="skills-orbit-container" data-aos="zoom-in" data-aos-delay="200">
+                <!-- Rings -->
+                <div class="orbit-ring orbit-ring-1"></div>
+                <div class="orbit-ring orbit-ring-2"></div>
+
+                <!-- Center glow -->
+                <div class="skills-center-glow">
+                    <i class="bi bi-code-slash skills-center-icon"></i>
+                </div>
+
+                <!-- Skill items (positioned by JS) -->
+                {% for skill in skills %}
+                <div class="skill-item skill-float" title="{{ skill.nome }}">
+                    {% if skill.icone %}
+                    <img src="{{ skill.icone.url }}" alt="{{ skill.nome }}">
+                    {% else %}
+                    <i class="bi bi-gear"></i>
+                    {% endif %}
+                    <span class="skill-tooltip">{{ skill.nome }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Fallback grid for very small screens -->
+            <div class="skills-grid-fallback">
+                {% for skill in skills %}
+                <div class="skill-item" title="{{ skill.nome }}">
+                    {% if skill.icone %}
+                    <img src="{{ skill.icone.url }}" alt="{{ skill.nome }}">
+                    {% else %}
+                    <i class="bi bi-gear"></i>
+                    {% endif %}
+                    <span class="skill-tooltip">{{ skill.nome }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ===================================================================
+         PROJECTS
+         =================================================================== -->
+    {% if projects %}
+    <section class="projects-section" id="projects">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Projetos em Destaque</h2>
+
+            {% for project in projects %}
+            <div class="project-block" data-aos="fade-up" data-aos-delay="100">
+                <div class="row align-items-center g-5 {% if forloop.counter|divisibleby:2 %}flex-row-reverse{% endif %}">
+
+                    <!-- Text side -->
+                    <div class="col-lg-5">
+                        <p class="project-label">{{ project.label }}</p>
+                        <h3 class="project-title">{{ project.titulo }}</h3>
+                        <p class="project-description">{{ project.descricao }}</p>
+
+                        <div class="project-links">
+                            {% if project.link_repositorio %}
+                            <a href="{{ project.link_repositorio }}" class="project-link-btn" target="_blank"
+                               rel="noopener" title="Repositório">
+                                <i class="bi bi-github"></i>
+                            </a>
+                            {% endif %}
+                            {% if project.link_projeto %}
+                            <a href="{{ project.link_projeto }}" class="project-link-btn" target="_blank"
+                               rel="noopener" title="Ver projeto">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Image side -->
+                    <div class="col-lg-7 position-relative">
+                        {% if forloop.counter|divisibleby:2 %}
+                        <div class="project-glow project-glow-left"></div>
+                        {% else %}
+                        <div class="project-glow project-glow-right"></div>
+                        {% endif %}
+
+                        {% with images=project.imagens.all %}
+                        {% if images|length > 0 %}
+                        <!-- Carousel with main + extra images -->
+                        <div id="projectCarousel{{ project.pk }}" class="carousel slide project-carousel" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#projectCarousel{{ project.pk }}"
+                                        data-bs-slide-to="0" class="active" aria-current="true"></button>
+                                {% for img in images %}
+                                <button type="button" data-bs-target="#projectCarousel{{ project.pk }}"
+                                        data-bs-slide-to="{{ forloop.counter }}"></button>
+                                {% endfor %}
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="project-image-wrapper">
+                                        {% if project.imagem_principal %}
+                                        <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+                                        {% else %}
+                                        <div class="d-flex align-items-center justify-content-center bg-glass" style="height: 400px;">
+                                            <div class="text-center">
+                                                <i class="bi bi-image text-accent" style="font-size: 3rem;"></i>
+                                                <p class="text-muted mt-2">Sem imagem</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% for img in images %}
+                                <div class="carousel-item">
+                                    <div class="project-image-wrapper">
+                                        {% if img.imagem %}
+                                        <img src="{{ img.imagem.url }}" alt="{{ img.legenda|default:project.titulo }}">
+                                        {% else %}
+                                        <div class="d-flex align-items-center justify-content-center bg-glass" style="height: 400px;">
+                                            <div class="text-center">
+                                                <i class="bi bi-image text-accent" style="font-size: 3rem;"></i>
+                                                <p class="text-muted mt-2">Sem imagem</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#projectCarousel{{ project.pk }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                    data-bs-target="#projectCarousel{{ project.pk }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Próximo</span>
+                            </button>
+                        </div>
+                        {% else %}
+                        <!-- Single image -->
+                        <div class="project-image-wrapper">
+                            {% if project.imagem_principal %}
+                            <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
+                            {% else %}
+                            <div class="d-flex align-items-center justify-content-center bg-glass" style="height: 400px; width: 100%;">
+                                <div class="text-center">
+                                    <i class="bi bi-image text-accent" style="font-size: 3rem;"></i>
+                                    <p class="text-muted mt-2">Sem imagem</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ===================================================================
+         CONTACT
+         =================================================================== -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="contact-title" data-aos="fade-up">Contato</h2>
+
+            <p class="contact-text" data-aos="fade-up" data-aos-delay="100">
+                {{ config.texto_disponibilidade }}
+            </p>
+
+            <a href="mailto:{{ config.email_contato }}" class="contact-email" data-aos="fade-up" data-aos-delay="200">
+                <i class="bi bi-envelope"></i> {{ config.email_contato }}
+            </a>
+
+            <div class="social-links" data-aos="fade-up" data-aos-delay="300">
+                {% if config.link_github %}
+                <a href="{{ config.link_github }}" class="social-link" target="_blank" rel="noopener" title="GitHub">
+                    <i class="bi bi-github"></i>
+                </a>
+                {% endif %}
+                {% if config.link_linkedin %}
+                <a href="{{ config.link_linkedin }}" class="social-link" target="_blank" rel="noopener" title="LinkedIn">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+                {% endif %}
+                {% if config.link_instagram %}
+                <a href="{{ config.link_instagram }}" class="social-link" target="_blank" rel="noopener" title="Instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                {% endif %}
+                {% if config.link_twitter %}
+                <a href="{{ config.link_twitter }}" class="social-link" target="_blank" rel="noopener" title="Twitter/X">
+                    <i class="bi bi-twitter-x"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    {% else %}
+    <!-- Estado vazio: sem configuração no banco -->
+    <section class="hero-section d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="text-center">
+            <h1 class="hero-role-title">Portfólio em Construção</h1>
+            <p class="hero-about mx-auto">
+                O conteúdo do site ainda não foi configurado. Acesse o painel administrativo
+                para adicionar suas informações, experiências, tecnologias e projetos.
+            </p>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ===================================================================
+         FOOTER
+         =================================================================== -->
+    <footer class="footer">
+        <div class="container">
+            {% if config %}
+            <p>&copy; {{ config.nome_site }} — Todos os direitos reservados.</p>
+            {% else %}
+            <p>&copy; Portfólio — Todos os direitos reservados.</p>
+            {% endif %}
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- AOS.js -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

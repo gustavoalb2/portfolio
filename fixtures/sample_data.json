@@ -1,0 +1,104 @@
+[
+  {
+    "model": "core.siteconfig",
+    "pk": 1,
+    "fields": {
+      "nome_site": "João Silva",
+      "titulo": "João Silva — Portfólio de Desenvolvedor",
+      "headline": "Judges a book by its cover.",
+      "subtitulo": "Um Desenvolvedor que...",
+      "cargo_atual": "Engenheiro de Software",
+      "empresa_atual": "TechCorp",
+      "link_empresa": "https://example.com",
+      "sobre_mim": "Um desenvolvedor full-stack autodidata, atuando na indústria há mais de 5 anos. Crio produtos digitais significativos que encontram o equilíbrio entre as necessidades do usuário e os objetivos de negócio.",
+      "foto_perfil": "",
+      "texto_disponibilidade": "Atualmente buscando ingressar em um time multidisciplinar que valorize a melhoria da vida das pessoas através de design acessível, ou que tenha um projeto em mente. Vamos conversar!",
+      "email_contato": "contato@joaosilva.dev",
+      "link_github": "https://github.com",
+      "link_linkedin": "https://linkedin.com",
+      "link_instagram": "https://instagram.com",
+      "link_twitter": "",
+      "meta_description": "Portfólio de João Silva — Engenheiro de Software Full-Stack. Projetos, experiências e tecnologias."
+    }
+  },
+  {
+    "model": "experiences.workexperience",
+    "pk": 1,
+    "fields": {
+      "titulo": "App Mobile para E-commerce",
+      "empresa": "TechCorp",
+      "descricao": "Desenvolvimento de aplicativo mobile completo para plataforma de e-commerce com mais de 50 mil usuários ativos.",
+      "icone": "",
+      "link": "",
+      "order": 1,
+      "ativo": true
+    }
+  },
+  {
+    "model": "experiences.workexperience",
+    "pk": 2,
+    "fields": {
+      "titulo": "Dashboard de Analytics",
+      "empresa": "DataViz",
+      "descricao": "Criação de dashboard interativo para visualização de dados em tempo real com gráficos dinâmicos e filtros avançados.",
+      "icone": "",
+      "link": "",
+      "order": 2,
+      "ativo": true
+    }
+  },
+  {
+    "model": "experiences.workexperience",
+    "pk": 3,
+    "fields": {
+      "titulo": "API de Pagamentos",
+      "empresa": "FinTech Solutions",
+      "descricao": "Integração e desenvolvimento de API REST para processamento de pagamentos com alta disponibilidade e segurança.",
+      "icone": "",
+      "link": "",
+      "order": 3,
+      "ativo": true
+    }
+  },
+  {
+    "model": "experiences.workexperience",
+    "pk": 4,
+    "fields": {
+      "titulo": "Plataforma de Ensino Online",
+      "empresa": "EduTech",
+      "descricao": "Desenvolvimento full-stack de plataforma educacional com streaming de vídeo, quizzes e certificação automática.",
+      "icone": "",
+      "link": "",
+      "order": 4,
+      "ativo": true
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 1,
+    "fields": {
+      "label": "Projeto em Destaque",
+      "titulo": "Plataforma de Streaming",
+      "descricao": "Um aplicativo web para visualizar dados personalizados de streaming. Veja seus artistas favoritos, músicas mais ouvidas, faixas reproduzidas recentemente e informações detalhadas de áudio sobre cada faixa. Crie e salve novas playlists de faixas recomendadas com base nas suas playlists existentes e muito mais.",
+      "imagem_principal": "",
+      "link_projeto": "https://example.com",
+      "link_repositorio": "https://github.com",
+      "order": 1,
+      "ativo": true
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 2,
+    "fields": {
+      "label": "Projeto em Destaque",
+      "titulo": "Sistema de Gestão de Tarefas",
+      "descricao": "Aplicação web completa para gerenciamento de projetos e tarefas em equipe. Interface moderna com kanban, timeline, atribuição de tarefas, notificações em tempo real e relatórios de produtividade.",
+      "imagem_principal": "",
+      "link_projeto": "",
+      "link_repositorio": "https://github.com",
+      "order": 2,
+      "ativo": true
+    }
+  }
+]
