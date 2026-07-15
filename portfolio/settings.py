@@ -84,7 +84,17 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # =============================================================================
 # Banco de dados (PostgreSQL via DATABASE_URL)
 # =============================================================================
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+# Remove aspas extras se existirem (problema com variáveis de ambiente)
+database_url = os.getenv("DATABASE_URL", "").strip('\'"')
+tmpPostgres = urlparse(database_url)
+
+# Parse query parameters e remove channel_binding se existir
+query_params = dict(parse_qsl(tmpPostgres.query))
+query_params.pop('channel_binding', None)  # Remove channel_binding que causa problemas no Vercel
+
+# Adiciona sslmode se não existir
+if 'sslmode' not in query_params:
+    query_params['sslmode'] = 'require'
 
 DATABASES = {
     'default': {
@@ -94,7 +104,7 @@ DATABASES = {
         'PASSWORD': tmpPostgres.password,
         'HOST': tmpPostgres.hostname,
         'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+        'OPTIONS': query_params,
     }
 }
 

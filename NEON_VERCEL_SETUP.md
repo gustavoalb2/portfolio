@@ -34,7 +34,7 @@ vercel env add DATABASE_URL
 
 | Variável | Valor |
 |----------|-------|
-| `DATABASE_URL` | `postgresql://neondb_owner:npg_pRwD32UJMPsV@ep-square-cake-ats7rz2n-pooler.c-9.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require` |
+| `DATABASE_URL` | `postgresql://neondb_owner:npg_pRwD32UJMPsV@ep-square-cake-ats7rz2n-pooler.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require` |
 | `SECRET_KEY` | Gere com `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"` |
 | `DEBUG` | `False` |
 | `VERCEL` | `True` |
@@ -103,7 +103,7 @@ CSRF_TRUSTED_ORIGINS=https://seu-dominio.vercel.app
 Para fazer backup do seu banco de dados Neon:
 
 ```bash
-pg_dump "postgresql://neondb_owner:npg_pRwD32UJMPsV@ep-square-cake-ats7rz2n-pooler.c-9.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require" > backup.sql
+pg_dump "postgresql://neondb_owner:npg_pRwD32UJMPsV@ep-square-cake-ats7rz2n-pooler.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require" > backup.sql
 ```
 
 ## Recursos Úteis
