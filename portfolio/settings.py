@@ -16,6 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # =============================================================================
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
+IS_VERCEL = config('VERCEL', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,.vercel.app', cast=Csv())
 
 # URL customizada do admin (via variável de ambiente)
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Banco de dados (PostgreSQL via DATABASE_URL)
 # =============================================================================
 DATABASE_URL = config(
-    'DATABASE_URL',
+    'DATABASE_URL_VERCEL' if IS_VERCEL else 'DATABASE_URL',
     default='postgresql://postgres:postgres@localhost:5432/portfolio',
 )
 
