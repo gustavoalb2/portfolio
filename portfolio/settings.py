@@ -4,6 +4,7 @@ Configurado com python-decouple para variáveis de ambiente.
 """
 
 from pathlib import Path
+import dj_database_url
 from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -74,15 +75,19 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 
 # =============================================================================
-# Banco de dados (SQLite para dev, pronto para PostgreSQL em prod)
+# Banco de dados (PostgreSQL via DATABASE_URL)
 # =============================================================================
-DB_PATH = BASE_DIR / 'db.sqlite3' if DEBUG else Path('/tmp/db.sqlite3')
+DATABASE_URL = config(
+    'DATABASE_URL',
+    default='postgresql://postgres:postgres@localhost:5432/portfolio',
+)
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_PATH,
-    }
+    'default': dj_database_url.config(
+        default=DATABASE_URL,
+        conn_max_age=600,
+        ssl_require=not DEBUG,
+    )
 }
 
 
