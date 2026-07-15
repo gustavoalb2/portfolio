@@ -6,6 +6,11 @@ Configurado com python-decouple para variáveis de ambiente.
 from pathlib import Path
 import dj_database_url
 from decouple import config, Csv
+import os
+from dotenv import load_dotenv
+from urllib.parse import urlparse, parse_qsl
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,17 +84,18 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # =============================================================================
 # Banco de dados (PostgreSQL via DATABASE_URL)
 # =============================================================================
-DATABASE_URL = config(
-    'DATABASE_URL_VERCEL' if IS_VERCEL else 'DATABASE_URL',
-    default='postgresql://postgres:postgres@localhost:5432/portfolio',
-)
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=DATABASE_URL,
-        conn_max_age=600,
-        ssl_require=not DEBUG,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+    }
 }
 
 
