@@ -4,6 +4,8 @@ Configurado com python-decouple para variáveis de ambiente.
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -83,6 +86,11 @@ DATABASES = {
     }
 }
 
+# Configuração para Produção (Supabase Postgres)
+database_url = config('DATABASE_URL', default=None)
+if database_url:
+    DATABASES['default'] = dj_database_url.parse(database_url, conn_max_age=600, conn_health_checks=True)
+
 
 # =============================================================================
 # Validação de senhas
@@ -111,8 +119,32 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Configuração de Mídia (Local vs Supabase Storage)
+if not DEBUG:
+    # Produção: Supabase S3 Storage
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+            "OPTIONS": {
+                "access_key": config('SUPABASE_S3_ACCESS_KEY_ID', default=''),
+                "secret_key": config('SUPABASE_S3_SECRET_ACCESS_KEY', default=''),
+                "bucket_name": config('SUPABASE_S3_BUCKET_NAME', default=''),
+                "region_name": config('SUPABASE_S3_REGION_NAME', default='auto'),
+                "endpoint_url": config('SUPABASE_S3_ENDPOINT_URL', default=''),
+                "addressing_style": "path",
+                "querystring_auth": False,
+                "signature_version": "s3v4",
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        }
+    }
+    MEDIA_URL = f"{config('SUPABASE_S3_ENDPOINT_URL', default='')}/{config('SUPABASE_S3_BUCKET_NAME', default='')}/"
+else:
+    # Desenvolvimento: Local Storage
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # =============================================================================
@@ -128,6 +160,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
 
 
 # =============================================================================
