@@ -56,8 +56,9 @@ class Project(models.Model):
         return self.titulo
 
     def save(self, *args, **kwargs):
-        if self.imagem_principal:
-            compress_image(self.imagem_principal, max_size=(1200, 800))
+        # Compressão desativada por enquanto (causa duplicação de pastas)
+        # if self.imagem_principal:
+        #     compress_image(self.imagem_principal, max_size=(1200, 800))
         super().save(*args, **kwargs)
 
 
@@ -96,6 +97,7 @@ class ProjectImage(models.Model):
         return f'Imagem {self.order} — {self.projeto.titulo}'
 
     def save(self, *args, **kwargs):
-        if self.imagem:
-            compress_image(self.imagem, max_size=(1200, 800))
+        # Compressão desativada por enquanto (causa duplicação de pastas)
+        # if self.imagem:
+        #     compress_image(self.imagem, max_size=(1200, 800))
         super().save(*args, **kwargs)

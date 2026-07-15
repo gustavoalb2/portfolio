@@ -51,6 +51,7 @@ class WorkExperience(models.Model):
         return f'{self.titulo} — {self.empresa}'
 
     def save(self, *args, **kwargs):
-        if self.icone:
-            compress_image(self.icone, max_size=(400, 300))
+        # Compressão desativada por enquanto (causa duplicação de pastas)
+        # if self.icone:
+        #     compress_image(self.icone, max_size=(400, 300))
         super().save(*args, **kwargs)

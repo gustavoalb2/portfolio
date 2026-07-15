@@ -31,6 +31,7 @@ class Skill(models.Model):
         return self.nome
 
     def save(self, *args, **kwargs):
-        if self.icone:
-            compress_image(self.icone, max_size=(200, 200))
+        # Compressão desativada por enquanto (causa duplicação de pastas)
+        # if self.icone:
+        #     compress_image(self.icone, max_size=(200, 200))
         super().save(*args, **kwargs)

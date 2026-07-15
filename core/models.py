@@ -138,9 +138,9 @@ class SiteConfig(models.Model):
     def save(self, *args, **kwargs):
         """Garante singleton: só permite 1 registro."""
         self.pk = 1
-        # Comprimir foto de perfil
-        if self.foto_perfil:
-            compress_image(self.foto_perfil, max_size=(500, 500))
+        # Compressão desativada por enquanto (causa duplicação de pastas)
+        # if self.foto_perfil:
+        #     compress_image(self.foto_perfil, max_size=(500, 500))
         super().save(*args, **kwargs)
 
     @classmethod
