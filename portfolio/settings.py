@@ -160,9 +160,6 @@ if IS_VERCEL and config('CLOUDINARY_CLOUD_NAME', default=''):
             'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
         },
     }
-    MEDIA_URL = 'https://res.cloudinary.com/{}/image/upload/'.format(
-        config('CLOUDINARY_CLOUD_NAME')
-    )
 else:
     # Desenvolvimento: usar FileSystem local
     STORAGES = {
