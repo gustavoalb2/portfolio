@@ -76,10 +76,12 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # =============================================================================
 # Banco de dados (SQLite para dev, pronto para PostgreSQL em prod)
 # =============================================================================
+DB_PATH = BASE_DIR / 'db.sqlite3' if DEBUG else Path('/tmp/db.sqlite3')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': DB_PATH,
     }
 }
 
