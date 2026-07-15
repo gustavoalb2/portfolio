@@ -6,3 +6,5 @@ dj-database-url>=2.2
 psycopg[binary]>=3.2
 whitenoise>=6.8
 dotenv
+cloudinary>=1.39
+django-cloudinary-storage>=0.3

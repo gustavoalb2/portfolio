@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Cloud Storage
+    'cloudinary_storage',
+    'cloudinary',
+
     # Apps do portfólio
     'core.apps.CoreConfig',
     'experiences.apps.ExperiencesConfig',
@@ -136,18 +140,42 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Storage para arquivos (Django 6.0+)
-STORAGES = {
-    'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage',
-        'LOCATION': BASE_DIR / 'media',
-    },
-    'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
-    },
-}
+# Cloudinary Configuration
+import cloudinary
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME', default=''),
+    api_key=config('CLOUDINARY_API_KEY', default=''),
+    api_secret=config('CLOUDINARY_API_SECRET', default=''),
+)
 
-MEDIA_URL = 'media/'
+# Storage para arquivos (Django 6.0+)
+# Usa Cloudinary em produção (Vercel) e FileSystem localmente
+if IS_VERCEL and config('CLOUDINARY_CLOUD_NAME', default=''):
+    # Produção: usar Cloudinary
+    STORAGES = {
+        'default': {
+            'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+        },
+    }
+    MEDIA_URL = 'https://res.cloudinary.com/{}/image/upload/'.format(
+        config('CLOUDINARY_CLOUD_NAME')
+    )
+else:
+    # Desenvolvimento: usar FileSystem local
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+            'LOCATION': BASE_DIR / 'media',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
+        },
+    }
+    MEDIA_URL = '/media/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
