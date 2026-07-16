@@ -60,6 +60,7 @@ html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-dark) var(--bg-primary);
+    overflow-x: hidden;
 }
 
 body {
@@ -449,9 +450,11 @@ img {
 /* Orbit container */
 .skills-orbit-container {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: min(400px, 100%);
+    aspect-ratio: 1;
+    max-width: 100%;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .skills-center-glow {
@@ -579,7 +582,7 @@ img {
     bottom: -20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 500px;
+    width: min(500px, 100%);
     height: 100px;
     border: 1px solid var(--border-subtle);
     border-radius: 50%;
@@ -596,6 +599,7 @@ img {
 .project-block {
     margin-bottom: 80px;
     position: relative;
+    overflow: hidden;
 }
 
 .project-label {
@@ -691,6 +695,10 @@ img {
 }
 
 /* Carousel customization */
+.project-carousel {
+    overflow: hidden;
+}
+
 .project-carousel .carousel-indicators [data-bs-target] {
     background-color: var(--accent-light);
     border: none;
@@ -801,8 +809,7 @@ img {
     }
 
     .skills-orbit-container {
-        width: 320px;
-        height: 320px;
+        width: min(320px, 100%);
     }
 
     .orbit-ring-1 {
@@ -837,12 +844,21 @@ img {
         text-align: center;
     }
 
+    .hero-subtitle-box {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        padding: 1.25rem 1.5rem;
+    }
+
     .hero-headline {
         font-size: 1.6rem;
+        overflow-wrap: break-word;
     }
 
     .hero-role-title {
         font-size: 1.5rem;
+        overflow-wrap: break-word;
     }
 
     .hero-about {
@@ -855,8 +871,7 @@ img {
     }
 
     .skills-orbit-container {
-        width: 280px;
-        height: 280px;
+        width: min(280px, 100%);
     }
 
     .orbit-ring-1 {
@@ -871,6 +886,19 @@ img {
 
     .project-block .row {
         flex-direction: column !important;
+    }
+
+    .project-glow {
+        display: none;
+    }
+
+    .project-title {
+        overflow-wrap: break-word;
+    }
+
+    .contact-email {
+        max-width: 100%;
+        overflow-wrap: anywhere;
     }
 }
 
@@ -927,11 +955,16 @@ img {
         flex-wrap: wrap;
         justify-content: center;
         gap: 1rem;
+        max-width: 100%;
     }
 
     .skills-grid-fallback .skill-item {
         position: static;
         width: 56px;
         height: 56px;
+    }
+
+    .skill-item .skill-tooltip {
+        display: none;
     }
 }

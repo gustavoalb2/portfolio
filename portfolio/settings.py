@@ -86,31 +86,46 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 
 # =============================================================================
-# Banco de dados (PostgreSQL via DATABASE_URL)
+# Banco de dados
 # =============================================================================
-# Remove aspas extras se existirem (problema com variáveis de ambiente)
-database_url = os.getenv("DATABASE_URL", "").strip('\'"')
-tmpPostgres = urlparse(database_url)
+# Local: SQLite por padrão (USE_SQLITE=True quando DEBUG e não está no Vercel)
+# Produção (Vercel): PostgreSQL no Neon via DATABASE_URL
+USE_SQLITE = config('USE_SQLITE', default=DEBUG and not IS_VERCEL, cast=bool)
 
-# Parse query parameters e remove channel_binding se existir
-query_params = dict(parse_qsl(tmpPostgres.query))
-query_params.pop('channel_binding', None)  # Remove channel_binding que causa problemas no Vercel
-
-# Adiciona sslmode se não existir
-if 'sslmode' not in query_params:
-    query_params['sslmode'] = 'require'
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': query_params,
+if USE_SQLITE:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    # Remove aspas extras se existirem (problema com variáveis de ambiente)
+    database_url = os.getenv("DATABASE_URL", "").strip('\'"')
+    if not database_url:
+        raise ValueError('DATABASE_URL é obrigatório quando USE_SQLITE=False')
+
+    tmpPostgres = urlparse(database_url)
+
+    # Parse query parameters e remove channel_binding se existir
+    query_params = dict(parse_qsl(tmpPostgres.query))
+    query_params.pop('channel_binding', None)  # Remove channel_binding que causa problemas no Vercel
+
+    # Adiciona sslmode se não existir
+    if 'sslmode' not in query_params:
+        query_params['sslmode'] = 'require'
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': tmpPostgres.path.replace('/', ''),
+            'USER': tmpPostgres.username,
+            'PASSWORD': tmpPostgres.password,
+            'HOST': tmpPostgres.hostname,
+            'PORT': 5432,
+            'OPTIONS': query_params,
+        }
+    }
 
 
 # =============================================================================
