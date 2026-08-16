@@ -109,10 +109,15 @@
 
                     <!-- Role with typing -->
                     <h2 class="hero-role-title" data-aos="fade-up" data-aos-delay="400" id="about">
+                        {% if config.cargo_atual != "Nenhum" %}
                         Eu sou <span id="typing-text" data-text="{{ config.cargo_atual }}"></span><span class="typing-cursor"></span>
+                        {% else %}
+                        Atualmente, não estou em nenhum cargo específico.
+                        {% endif %}
                     </h2>
 
                     <!-- Current position -->
+                    {% if config.cargo_atual != "Nenhum" %} 
                     <p class="hero-current-role" data-aos="fade-up" data-aos-delay="500">
                         Atualmente, sou {{ config.cargo_atual }} na
                         {% if config.link_empresa %}
@@ -123,6 +128,11 @@
                         <strong>{{ config.empresa_atual }}</strong>
                         {% endif %}
                     </p>
+                    {% else %}
+                    <p class="hero-current-role" data-aos="fade-up" data-aos-delay="500">
+                        Estou buscando ingressar em um time multidisciplinar que valorize a melhoria da vida das pessoas através de design acessível, ou que tenha um projeto em mente. Vamos conversar! 
+                    </p>
+                    {% endif %}
 
                     <!-- About -->
                     <p class="hero-about" data-aos="fade-up" data-aos-delay="600">
