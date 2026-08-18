@@ -38,9 +38,7 @@
 </head>
 <body>
 
-    <!-- ===================================================================
-         NAVBAR
-         =================================================================== -->
+    <!--NAVBAR-->
     <nav class="navbar navbar-expand-lg navbar-portfolio fixed-top">
         <div class="container">
             {% if config %}
@@ -62,7 +60,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav gap-1">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#home">Início</a>
+                        <a class="nav-link" href="#home">Início</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#about">Sobre</a>
@@ -79,16 +77,14 @@
     </nav>
 
     {% if config %}
-    <!-- ===================================================================
-         HERO SECTION
-         =================================================================== -->
+    <!--secão hero-->
     <section class="hero-section" id="home">
         <div class="hero-glow"></div>
         <div class="container hero-content">
             <div class="row">
                 <div class="col-lg-8">
 
-                    <!-- Profile -->
+                    <!-- foto perfil -->
                     <div class="hero-profile-wrapper" data-aos="fade-down" data-aos-delay="100">
                         {% if config.foto_perfil %}
                         <img src="{{ config.foto_perfil.url }}" alt="{{ config.nome_site }}" class="hero-profile-img">
@@ -96,7 +92,7 @@
                         {% endif %}
                     </div>
 
-                    <!-- Greeting -->
+                    <!-- hello world -->
                     <p class="hero-greeting" data-aos="fade-up" data-aos-delay="200">
                         Olá! Eu sou <span class="accent">{{ config.nome_site }}</span>
                     </p>
@@ -107,7 +103,7 @@
                         <h1 class="hero-headline">{{ config.headline }}</h1>
                     </div>
 
-                    <!-- Role with typing -->
+                    <!-- função -->
                     <h2 class="hero-role-title" data-aos="fade-up" data-aos-delay="400" id="about">
                         {% if config.cargo_atual != "Nenhum" %}
                         Eu sou <span id="typing-text" data-text="{{ config.cargo_atual }}"></span><span class="typing-cursor"></span>
@@ -116,7 +112,7 @@
                         {% endif %}
                     </h2>
 
-                    <!-- Current position -->
+                    <!-- função atual ext-->
                     {% if config.cargo_atual != "Nenhum" %} 
                     <p class="hero-current-role" data-aos="fade-up" data-aos-delay="500">
                         Atualmente, sou {{ config.cargo_atual }} na
@@ -134,7 +130,7 @@
                     </p>
                     {% endif %}
 
-                    <!-- About -->
+                    <!-- sobre -->
                     <p class="hero-about" data-aos="fade-up" data-aos-delay="600">
                         {{ config.sobre_mim }}
                     </p>
@@ -144,9 +140,7 @@
         </div>
     </section>
 
-    <!-- ===================================================================
-         WORK EXPERIENCE
-         =================================================================== -->
+    <!--experiencia profissional-->
     {% if experiences %}
     <section class="experience-section" id="experience">
         <div class="container">
@@ -177,21 +171,19 @@
     </section>
     {% endif %}
 
-    <!-- ===================================================================
-         SKILLS / TECHNOLOGIES
-         =================================================================== -->
+    <!--SKILLS / TECHNOLOGIES-->
     {% if skills %}
     <section class="skills-section" id="skills">
         <div class="container">
 
-            <!-- Availability text -->
+            <!-- habilidades text -->
             <div class="skills-availability" data-aos="fade-up">
                 <p>{{ config.texto_disponibilidade }}</p>
             </div>
 
-            <!-- Orbit -->
+            <!-- Orbita -->
             <div class="skills-orbit-container" data-aos="zoom-in" data-aos-delay="200">
-                <!-- Rings -->
+                <!-- Aneis -->
                 <div class="orbit-ring orbit-ring-1"></div>
                 <div class="orbit-ring orbit-ring-2"></div>
 
@@ -200,7 +192,7 @@
                     <i class="bi bi-code-slash skills-center-icon"></i>
                 </div>
 
-                <!-- Skill items (positioned by JS) -->
+                <!-- Skill items (posicionado por JS) -->
                 {% for skill in skills %}
                 <div class="skill-item skill-float" title="{{ skill.nome }}">
                     {% if skill.icone %}
@@ -213,7 +205,7 @@
                 {% endfor %}
             </div>
 
-            <!-- Fallback grid for very small screens -->
+            <!-- Grid de fallback para telas muito pequenas -->
             <div class="skills-grid-fallback">
                 {% for skill in skills %}
                 <div class="skill-item" title="{{ skill.nome }}">
@@ -231,9 +223,7 @@
     </section>
     {% endif %}
 
-    <!-- ===================================================================
-         PROJECTS
-         =================================================================== -->
+    <!-- Projetos -->
     {% if projects %}
     <section class="projects-section" id="projects">
         <div class="container">
@@ -243,12 +233,13 @@
             <div class="project-block" data-aos="fade-up" data-aos-delay="100">
                 <div class="row align-items-center g-5 {% if forloop.counter|divisibleby:2 %}flex-row-reverse{% endif %}">
 
-                    <!-- Text side -->
+                    <!-- texto -->
                     <div class="col-lg-5">
                         <p class="project-label">{{ project.label }}</p>
                         <h3 class="project-title">{{ project.titulo }}</h3>
                         <p class="project-description">{{ project.descricao }}</p>
 
+                        <!-- links projeto -->
                         <div class="project-links">
                             {% if project.link_repositorio %}
                             <a href="{{ project.link_repositorio }}" class="project-link-btn" target="_blank"
@@ -265,7 +256,7 @@
                         </div>
                     </div>
 
-                    <!-- Image side -->
+                    <!-- Imagem -->
                     <div class="col-lg-7 position-relative">
                         {% if forloop.counter|divisibleby:2 %}
                         <div class="project-glow project-glow-left"></div>
@@ -275,7 +266,7 @@
 
                         {% with images=project.imagens.all %}
                         {% if images|length > 0 %}
-                        <!-- Carousel with main + extra images -->
+                        <!-- Carousel -->
                         <div id="projectCarousel{{ project.pk }}" class="carousel slide project-carousel" data-bs-ride="carousel">
                             <div class="carousel-indicators">
                                 <button type="button" data-bs-target="#projectCarousel{{ project.pk }}"
@@ -329,7 +320,7 @@
                             </button>
                         </div>
                         {% else %}
-                        <!-- Single image -->
+                        <!-- Imagem principal -->
                         <div class="project-image-wrapper">
                             {% if project.imagem_principal %}
                             <img src="{{ project.imagem_principal.url }}" alt="{{ project.titulo }}">
@@ -354,9 +345,7 @@
     </section>
     {% endif %}
 
-    <!-- ===================================================================
-         CONTACT
-         =================================================================== -->
+    <!-- Contatos -->
     <section class="contact-section" id="contact">
         <div class="container">
             <h2 class="contact-title" data-aos="fade-up">Contato</h2>
@@ -407,9 +396,7 @@
     </section>
     {% endif %}
 
-    <!-- ===================================================================
-         FOOTER
-         =================================================================== -->
+    <!--FOOTER-->
     <footer class="footer">
         <div class="container">
             {% if config %}
